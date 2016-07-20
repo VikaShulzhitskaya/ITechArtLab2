@@ -1,3 +1,5 @@
+"use strict";
+
 var sayHiTo = window.utils.partial(greeting, "Ms");
 
 alert(sayHiTo("Ann")); 

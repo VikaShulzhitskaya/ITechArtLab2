@@ -1,3 +1,5 @@
+"use strict";
+
 function averageOfEvenNumbers(arr){
 	var evenArray = window.utils.filter(arr, isEven);
 	var arraySum = window.utils.linear(evenArray, add);
@@ -44,3 +46,4 @@ function multiplicate(a, b){
 function isEven(number){
 	return number % 2 == 0;
 }
+
