@@ -1,4 +1,4 @@
-window.utils = (function(exportF) { 
+window.utils = (function(exports) { 
 	"use strict";
 
 	function partial(func) {
@@ -28,16 +28,15 @@ window.utils = (function(exportF) {
 	}
 	
 	function linear(arr, func, initVal) {
-		var index;
 		var currentVal;
 
 		if (initVal === undefined) {
 			initVal = arr[0];
-			index = 1;
+			i = 1;
 		} else {
-			index = 0;
+			i = 0;
 		}
-		for (var i = index, length = arr.length; i < length; i += 1) {
+		for (i, length = arr.length; i < length; i += 1) {
 			currentVal = arr[i];
 			initVal = func(initVal, currentVal , i, arr);
 		}
@@ -80,7 +79,10 @@ window.utils = (function(exportF) {
 
 		return function () {
 			var key = JSON.stringify(arguments);
-			return cacheMap[key] || (cacheMap[key] = func.apply(null, arguments));
+			if(cacheMap[key]){
+				return cacheMap[key];
+			}
+			return cacheMap[key] = func.apply(null, arguments);
 		};
 	}
 
@@ -91,14 +93,14 @@ window.utils = (function(exportF) {
 	}
 
 
-	exportF.partial = partial;
-	exportF.curring = curring;
-	exportF.inherit = inherit;
-	exportF.linear = linear;
-	exportF.map = map;
-	exportF.filter = filter;
-	exportF.lazy = lazy;
-	exportF.memoization = memoization;
+	exports.partial = partial;
+	exports.curring = curring;
+	exports.inherit = inherit;
+	exports.linear = linear;
+	exports.map = map;
+	exports.filter = filter;
+	exports.lazy = lazy;
+	exports.memoization = memoization;
 
-	return exportF;
+	return exports;
 })({});

@@ -1,8 +1,8 @@
 "use strict";
 
 function averageOfEvenNumbers(arr){
-	var evenArray = window.utils.filter(arr, isEven);
-	var arraySum = window.utils.linear(evenArray, add);
+	var evenArray = utils.filter(arr, isEven);
+	var arraySum = utils.linear(evenArray, add);
 
 	return  arraySum / evenArray.length;
 }
@@ -20,7 +20,7 @@ function anyNumberOfParametersMultiplicator(){
 function anyNumberOfParametersMultiplicatorLinear() {
 	var args = Array.prototype.slice.call(arguments);
 
-	return window.utils.linear(args, multiplicate);
+	return utils.linear(args, multiplicate);
 }
 
 function greeting(title, name) {

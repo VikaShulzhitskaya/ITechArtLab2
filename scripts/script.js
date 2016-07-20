@@ -1,26 +1,26 @@
 "use strict";
 
-var sayHiTo = window.utils.partial(greeting, "Ms");
+var sayHiTo = utils.partial(greeting, "Ms");
 
 alert(sayHiTo("Ann")); 
 sayHiTo("Jane");
 
-var curringFunction = window.utils.curring(sum5);
+var curringFunction = utils.curring(sum5);
 curringFunction(1)(2)(3)(4)(5);
 
-var linearFunction = window.utils.linear([2,9,12], add, 2);
+var linearFunction = utils.linear([2,9,12], add, 2);
 
-var mapFunction = window.utils.map(["Apple","Banana","JS"], nameLength);
+var mapFunction = utils.map(["Apple","Banana","JS"], nameLength);
 
 var multiplicationResult = anyNumberOfParametersMultiplicatorLinear(1, 2, 3, 4, 5, 6, 7);
 
 var averageOfEvenNumbers = averageOfEvenNumbers([1, 23, 2, 6, 12, 0]);
 
-var lazyFunction = window.utils.lazy(sum5, 1, 2, 3, 4, 8);
+var lazyFunction = utils.lazy(sum5, 1, 2, 3, 4, 8);
 
 lazyFunction();
 
-var memoizationFactorial = window.utils.memoization(function (n) {
+var memoizationFactorial = utils.memoization(function (n) {
 	return n ? n * memoizationFactorial(n-1) : 1;
 });
 
@@ -77,11 +77,11 @@ function ShapeStore(){
 	this.store = [];
 }
 
-ShapeStore.prototype.AddObj = function(object){
+ShapeStore.prototype.addObj = function(object){
 	this.store.push(object);
 }
 
-ShapeStore.prototype.CalculateTotalPerimeter = function(){
+ShapeStore.prototype.calculateTotalPerimeter = function(){
 	var perimeter = 0;
 
 	for (var i = 0, length = this.store.length; i < length; i += 1) {
@@ -93,7 +93,7 @@ ShapeStore.prototype.CalculateTotalPerimeter = function(){
 	return perimeter;
 }
 
-ShapeStore.prototype.CalculateTotalArea = function(){
+ShapeStore.prototype.calculateTotalArea = function(){
 	var area = 0;
 
 	for (var i = 0, length = this.store.length; i < length; i += 1) {
@@ -106,10 +106,10 @@ ShapeStore.prototype.CalculateTotalArea = function(){
 }
 
 var shapes = new ShapeStore();
-shapes.AddObj(rect1);
-shapes.AddObj(rect2);
-shapes.AddObj(rect3);
-shapes.AddObj(sq1);
+shapes.addObj(rect1);
+shapes.addObj(rect2);
+shapes.addObj(rect3);
+shapes.addObj(sq1);
 
-var totalPerimeter = shapes.CalculateTotalPerimeter();
-var totalArea = shapes.CalculateTotalArea();
+var totalPerimeter = shapes.calculateTotalPerimeter();
+var totalArea = shapes.calculateTotalArea();
