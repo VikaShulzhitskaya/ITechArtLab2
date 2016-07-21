@@ -4,10 +4,9 @@ window.utils = (function(exports) {
 	function partial(func) {
 		var slice = Array.prototype.slice;
 		var args = slice.call(arguments, 1);
-		var innerArgs;
 
 		return function() {
-			innerArgs = slice.call(arguments);
+			var innerArgs = slice.call(arguments);
 
 			return func.apply(null, args.concat(innerArgs));
 		};
@@ -130,7 +129,7 @@ window.utils = (function(exports) {
 	}
 
 	function isObject(value){
-		return (typeof(value) === 'object') && (!isNull(value));
+		return !isNull(value) && (typeof(value) === 'object');
 	}
 
 	function first(arr){
@@ -140,11 +139,8 @@ window.utils = (function(exports) {
 	}
 
 	function last(arr){
-		if(arr){
-			var length = arr.length;
-			if(length){
-				return arr[length-1];
-			}
+		if(arr && arr.length){
+			return arr[arr.length - 1];
 		}
 	}
 
