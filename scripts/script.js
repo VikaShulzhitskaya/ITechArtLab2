@@ -42,7 +42,7 @@ function Rectangle(name, width, height){
 	this.height = height;
 }
 
-window.utils.inherit(Rectangle, Shape);
+utils.inherit(Rectangle, Shape);
 
 Rectangle.prototype.calculatePerimeter = function(){
 	return Shape.prototype.calculatePerimeter.call(this, this.width, this.height);
@@ -57,7 +57,7 @@ function Square(name, sideLen){
 	this.sideLength = sideLen;
 }
 
-window.utils.inherit(Square, Shape);
+utils.inherit(Square, Shape);
 
 Square.prototype.calculatePerimeter = function(){
 	return Shape.prototype.calculatePerimeter.call(this, this.sideLength, this.sideLength);

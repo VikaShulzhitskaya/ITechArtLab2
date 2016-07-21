@@ -23,6 +23,8 @@ alert(utils.isUndefined(u));
 var n = null;
 alert(utils.isNull(n));
 
+alert(utils.isObject(null));
+
 var firstA = utils.first(a);
 var lastA = utils.last(a);
 

@@ -29,6 +29,7 @@ window.utils = (function(exports) {
 	
 	function linear(arr, func, initVal) {
 		var currentVal;
+		var i;
 
 		if (initVal === undefined) {
 			initVal = arr[0];
@@ -92,7 +93,100 @@ window.utils = (function(exports) {
 		Child._super = Parent;
 	}
 
+	function getClass(value) {
+		return Object.prototype.toString.call(value).slice(8, -1);
+	}
 
+	function isArray(value){
+		return getClass(value) === 'Array';
+	}
+
+	function isBoolean(value){
+		return getClass(value) === 'Boolean';
+	}
+
+	function isDate(value){
+		return getClass(value) === 'Date';
+	}
+
+	function isNumber(value){
+		return getClass(value) === 'Number';
+	}
+
+	function isString(value){
+		return getClass(value) === 'String';
+	}
+
+	function isFunction(value){
+		return getClass(value) === 'Function';
+	}
+
+	function isUndefined(value){
+		return getClass(value) === 'Undefined';
+	}
+
+	function isNull(value){
+		return getClass(value) === 'Null';
+	}
+
+	function isObject(value){
+		return (typeof(value) === 'object') && (!isNull(value));
+	}
+
+	function first(arr){
+		if( arr ){
+			return arr[0];
+		}
+	}
+
+	function last(arr){
+		if(arr){
+			var length = arr.length;
+			if(length){
+				return arr[length-1];
+			}
+		}
+	}
+
+	function skip(arr, number){
+		return arr.slice(number); 
+	}
+
+	function take(arr, number){
+		return arr.slice(0,number);
+	}
+
+	function asChain(arr){
+		var array = arr.slice();
+		return {
+			skip: function(number){
+				array = skip(array,number);
+				return this;
+			},
+			take: function(number){
+				array = take(array,number);
+				return this;
+			},
+			getValue(){
+				return array;
+			}
+		};
+	}
+
+	exports.isArray = isArray;
+	exports.isBoolean = isBoolean;
+	exports.isDate = isDate;
+	exports.isNumber = isNumber;
+	exports.isString = isString;
+	exports.isFunction = isFunction;
+	exports.isUndefined = isUndefined;
+	exports.isNull = isNull;
+	exports.isObject = isObject;
+	exports.first = first;
+	exports.last = last;
+	exports.skip = skip;
+	exports.take = take;
+	exports.asChain = asChain;
 	exports.partial = partial;
 	exports.curring = curring;
 	exports.inherit = inherit;
