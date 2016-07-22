@@ -1,196 +1,229 @@
-window.utils = (function(exports) { 
-	"use strict";
+window.utils = (function (exports) {
+  "use strict";
 
-	function partial(func) {
-		var slice = Array.prototype.slice;
-		var args = slice.call(arguments, 1);
+  function partial(func) {
+    var slice = Array.prototype.slice;
+    var args = slice.call(arguments, 1);
 
-		return function() {
-			var innerArgs = slice.call(arguments);
+    return function () {
+      var innerArgs = slice.call(arguments);
 
-			return func.apply(null, args.concat(innerArgs));
-		};
-	}
+      return func.apply(null, args.concat(innerArgs));
+    };
+  }
 
-	function curring(func) {
-		var expectedArgsCount = func.length;
-		var params = [];
+  function curring(func) {
+    var expectedArgsCount = func.length;
+    var params = [];
 
-		return function repeater(arg) {
-			params.push(arg);
+    return function repeater(arg) {
+      params.push(arg);
 
-			if(params.length >= expectedArgsCount) {
-				return func.apply(null, params);
-			} 
-			return repeater;
-		};
-	}
-	
-	function linear(arr, func, initVal) {
-		var currentVal;
-		var i;
+      if (params.length >= expectedArgsCount) {
+        return func.apply(null, params);
+      }
+      return repeater;
+    };
+  }
 
-		if (initVal === undefined) {
-			initVal = arr[0];
-			i = 1;
-		} else {
-			i = 0;
-		}
-		for (i, length = arr.length; i < length; i += 1) {
-			currentVal = arr[i];
-			initVal = func(initVal, currentVal , i, arr);
-		}
+  function linear(arr, func, initVal) {
+    var currentVal;
+    var i;
 
-		return initVal;
-	}
+    if (initVal === undefined) {
+      initVal = arr[0];
+      i = 1;
+    } else {
+      i = 0;
+    }
+    for (i, length = arr.length; i < length; i += 1) {
+      currentVal = arr[i];
+      initVal = func(initVal, currentVal, i, arr);
+    }
 
-	function map(arr, func) {
-		var returnedArray = [];
+    return initVal;
+  }
 
-		for (var i = 0, length = arr.length; i < length; i += 1) {
-			returnedArray.push(func(arr[i], i, arr));
-		}
+  function map(arr, func) {
+    var returnedArray = [];
 
-		return returnedArray;
-	}
+    for (var i = 0, length = arr.length; i < length; i += 1) {
+      returnedArray.push(func(arr[i], i, arr));
+    }
 
-	function filter(arr, func) {
-		var filteredArray = [];
+    return returnedArray;
+  }
 
-		for (var i = 0, length = arr.length; i < length; i += 1) {
-			if(func(arr[i], i, arr)){
-				filteredArray.push(arr[i]);
-			}
-		}
+  function filter(arr, func) {
+    var filteredArray = [];
 
-		return filteredArray;
-	}
+    for (var i = 0, length = arr.length; i < length; i += 1) {
+      if (func(arr[i], i, arr)) {
+        filteredArray.push(arr[i]);
+      }
+    }
 
-	function lazy(func){
-		var args = Array.prototype.slice.call(arguments, 1);
+    return filteredArray;
+  }
 
-		return function() {
-			return func.apply(null, args);
-		};
-	}
+  function lazy(func) {
+    var args = Array.prototype.slice.call(arguments, 1);
 
-	function memoization(func){
-		var cacheMap = {};
+    return function () {
+      return func.apply(null, args);
+    };
+  }
 
-		return function () {
-			var key = JSON.stringify(arguments);
-			if(cacheMap[key]){
-				return cacheMap[key];
-			}
-			return cacheMap[key] = func.apply(null, arguments);
-		};
-	}
+  function memoization(func) {
+    var cacheMap = {};
 
-	function inherit(Child, Parent){
-		Child.prototype = Object.create(Parent.prototype);
-		Child.prototype.constructor = Child;
-		Child._super = Parent;
-	}
+    return function () {
+      var key = JSON.stringify(arguments);
+      if (cacheMap[key]) {
+        return cacheMap[key];
+      }
+      return cacheMap[key] = func.apply(null, arguments);
+    };
+  }
 
-	function getClass(value) {
-		return Object.prototype.toString.call(value).slice(8, -1);
-	}
+  function inherit(Child, Parent) {
+    Child.prototype = Object.create(Parent.prototype);
+    Child.prototype.constructor = Child;
+    Child._super = Parent;
+  }
 
-	function isArray(value){
-		return getClass(value) === 'Array';
-	}
+  function getClass(value) {
+    return Object.prototype.toString.call(value).slice(8, -1);
+  }
 
-	function isBoolean(value){
-		return getClass(value) === 'Boolean';
-	}
+  function isArray(value) {
+    return getClass(value) === 'Array';
+  }
 
-	function isDate(value){
-		return getClass(value) === 'Date';
-	}
+  function isBoolean(value) {
+    return getClass(value) === 'Boolean';
+  }
 
-	function isNumber(value){
-		return getClass(value) === 'Number';
-	}
+  function isDate(value) {
+    return getClass(value) === 'Date';
+  }
 
-	function isString(value){
-		return getClass(value) === 'String';
-	}
+  function isNumber(value) {
+    return getClass(value) === 'Number';
+  }
 
-	function isFunction(value){
-		return getClass(value) === 'Function';
-	}
+  function isString(value) {
+    return getClass(value) === 'String';
+  }
 
-	function isUndefined(value){
-		return getClass(value) === 'Undefined';
-	}
+  function isFunction(value) {
+    return getClass(value) === 'Function';
+  }
 
-	function isNull(value){
-		return getClass(value) === 'Null';
-	}
+  function isUndefined(value) {
+    return getClass(value) === 'Undefined';
+  }
 
-	function isObject(value){
-		return !isNull(value) && (typeof(value) === 'object');
-	}
+  function isNull(value) {
+    return getClass(value) === 'Null';
+  }
 
-	function first(arr){
-		if( arr ){
-			return arr[0];
-		}
-	}
+  function isObject(value) {
+    return !isNull(value) && (typeof (value) === 'object');
+  }
 
-	function last(arr){
-		if(arr && arr.length){
-			return arr[arr.length - 1];
-		}
-	}
+  function first(arr) {
+    if (arr) {
+      return arr[0];
+    }
+  }
 
-	function skip(arr, number){
-		return arr.slice(number); 
-	}
+  function last(arr) {
+    if (arr && arr.length) {
+      return arr[arr.length - 1];
+    }
+  }
 
-	function take(arr, number){
-		return arr.slice(0,number);
-	}
+  function skip(arr, number) {
+    return arr.slice(number);
+  }
 
-	function asChain(arr){
-		var array = arr.slice();
-		return {
-			skip: function(number){
-				array = skip(array,number);
-				return this;
-			},
-			take: function(number){
-				array = take(array,number);
-				return this;
-			},
-			getValue(){
-				return array;
-			}
-		};
-	}
+  function take(arr, number) {
+    return arr.slice(0, number);
+  }
 
-	exports.isArray = isArray;
-	exports.isBoolean = isBoolean;
-	exports.isDate = isDate;
-	exports.isNumber = isNumber;
-	exports.isString = isString;
-	exports.isFunction = isFunction;
-	exports.isUndefined = isUndefined;
-	exports.isNull = isNull;
-	exports.isObject = isObject;
-	exports.first = first;
-	exports.last = last;
-	exports.skip = skip;
-	exports.take = take;
-	exports.asChain = asChain;
-	exports.partial = partial;
-	exports.curring = curring;
-	exports.inherit = inherit;
-	exports.linear = linear;
-	exports.map = map;
-	exports.filter = filter;
-	exports.lazy = lazy;
-	exports.memoization = memoization;
+  function asChain(arr) {
+    var array = arr.slice();
+    return {
+      skip: function (number) {
+        array = skip(array, number);
+        return this;
+      },
+      take: function (number) {
+        array = take(array, number);
+        return this;
+      },
+      getValue() {
+        return array;
+      }
+    };
+  }
 
-	return exports;
+  function Node(key, val, path) {
+    this.key = key;
+    this.val = val;
+    this.path = path;
+  }
+
+  function traverse(obj, callback) {
+    var queue = [new Node(null, obj, null)];
+
+    while (queue.length) {
+      var node = queue.shift();
+
+      if (isObject(node.val)) {
+        var keys = Object.keys(node.val);
+        var value = node.val;
+
+        for (var i = 0, length = keys.length; i < length; i += 1) {
+          var path = [];
+
+          if (node.path) {
+            path.push(node.path);
+          }
+
+          path.push(node.key);
+          queue.push(new Node(keys[i], value[keys[i]], path));
+        }
+      } else {
+        callback(node.key, node.val, node.path);
+      }
+    }
+  }
+
+  exports.isArray = isArray;
+  exports.isBoolean = isBoolean;
+  exports.isDate = isDate;
+  exports.isNumber = isNumber;
+  exports.isString = isString;
+  exports.isFunction = isFunction;
+  exports.isUndefined = isUndefined;
+  exports.isNull = isNull;
+  exports.isObject = isObject;
+  exports.first = first;
+  exports.last = last;
+  exports.skip = skip;
+  exports.take = take;
+  exports.asChain = asChain;
+  exports.partial = partial;
+  exports.curring = curring;
+  exports.inherit = inherit;
+  exports.linear = linear;
+  exports.map = map;
+  exports.filter = filter;
+  exports.lazy = lazy;
+  exports.memoization = memoization;
+  exports.traverse = traverse;
+
+  return exports;
 })({});

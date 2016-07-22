@@ -1,49 +1,50 @@
-"use strict";
+(function () {
+  "use strict";
 
-function averageOfEvenNumbers(arr){
-	var evenArray = utils.filter(arr, isEven);
-	var arraySum = utils.linear(evenArray, add);
+  function averageOfEvenNumbers(arr) {
+    var evenArray = utils.filter(arr, isEven);
+    var arraySum = utils.linear(evenArray, add);
 
-	return  arraySum / evenArray.length;
-}
+    return arraySum / evenArray.length;
+  }
 
-function anyNumberOfParametersMultiplicator(){
-	var sum = 0;
+  function anyNumberOfParametersMultiplicator() {
+    var sum = 0;
 
-	for (var i = 0, length = arguments.length; i < length; i += 1) {
-		sum += arguments[i];
-	}
+    for (var i = 0, length = arguments.length; i < length; i += 1) {
+      sum += arguments[i];
+    }
 
-	return sum;
-}
+    return sum;
+  }
 
-function anyNumberOfParametersMultiplicatorLinear() {
-	var args = Array.prototype.slice.call(arguments);
+  function anyNumberOfParametersMultiplicatorLinear() {
+    var args = Array.prototype.slice.call(arguments);
 
-	return utils.linear(args, multiplicate);
-}
+    return utils.linear(args, multiplicate);
+  }
 
-function greeting(title, name) {
-	return "Hello, " + title + " " + name;
-}
+  function greeting(title, name) {
+    return "Hello, " + title + " " + name;
+  }
 
-function sum5(a, b, c, d, e) {
-	return a + b + c + d + e;
-}
+  function sum5(a, b, c, d, e) {
+    return a + b + c + d + e;
+  }
 
-function add(a, b) {
-	return a + b;
-}
+  function add(a, b) {
+    return a + b;
+  }
 
-function nameLength(name) {
-	return name.length;
-}
+  function nameLength(name) {
+    return name.length;
+  }
 
-function multiplicate(a, b){
-	return a * b;
-}
+  function multiplicate(a, b) {
+    return a * b;
+  }
 
-function isEven(number){
-	return number % 2 == 0;
-}
-
+  function isEven(number) {
+    return number % 2 === 0;
+  }
+})();
