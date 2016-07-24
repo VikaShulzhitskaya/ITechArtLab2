@@ -175,7 +175,9 @@ window.utils = (function (exports) {
     this.path = path;
   }
 
-  function traverse(obj, callback) {
+  // bypassing the object in width
+
+  function traverseWidth(obj, callback) {
     var queue = [new Node(null, obj, null)];
 
     while (queue.length) {
@@ -201,6 +203,63 @@ window.utils = (function (exports) {
     }
   }
 
+  // bypassing the object in depth
+
+  function traverseDepth(obj, callback) {
+    depthFirst((new Node(null, obj, null)), callback);
+  }
+
+  function depthFirst(node, callback) {
+    if (isObject(node.val)) {
+      var keys = Object.keys(node.val);
+      var value = node.val;
+
+      for (var i = 0, length = keys.length; i < length; i += 1) {
+        var path = [];
+
+        if (node.path) {
+          path.push(node.path);
+        }
+
+        path.push(node.key);
+
+        depthFirst((new Node(keys[i], value[keys[i]], path)), callback);
+      }
+    } else {
+      callback(node.key, node.val, node.path);
+    }
+  }
+
+  //deep comparison of two objects
+
+  function deepCompare(firstObj, secondObject) {
+    if (!isObject(firstObj) && !isObject(secondObject)) {
+
+      return firstObj === secondObject;
+    } else {
+      var isEqual = true;
+      var keysFirstObj = Object.keys(firstObj);
+      var keysSecondObject = Object.keys(secondObject);
+
+      if (keysFirstObj.length != keysSecondObject.length) {
+        return false;
+      }
+
+      for (var i = 0, length = keysFirstObj.length; i < length; i += 1) {
+        if (isEqual) {
+          if (secondObject.hasOwnProperty(keysFirstObj[i])) {
+            isEqual = deepCompare(firstObj[keysFirstObj[i]], secondObject[keysFirstObj[i]]);
+          } else {
+            isEqual = false;
+          }
+        } else {
+          break;
+        }
+      }
+      return isEqual;
+    }
+  }
+
   exports.isArray = isArray;
   exports.isBoolean = isBoolean;
   exports.isDate = isDate;
@@ -223,7 +282,9 @@ window.utils = (function (exports) {
   exports.filter = filter;
   exports.lazy = lazy;
   exports.memoization = memoization;
-  exports.traverse = traverse;
+  exports.traverseWidth = traverseWidth;
+  exports.traverseDepth = traverseDepth;
+  exports.deepCompare = deepCompare;
 
   return exports;
 
