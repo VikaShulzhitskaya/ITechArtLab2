@@ -53,3 +53,5 @@ alert(utils.deepCompare(j, j));
 function showSheet(key, val, path) {
   console.log(key + " " + val);
 }
+
+var clone = utils.deepClone(j);

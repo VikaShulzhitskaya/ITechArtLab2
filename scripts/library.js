@@ -260,6 +260,26 @@ window.utils = (function (exports) {
     }
   }
 
+  //deep clone of two object
+
+  function deepClone(obj) {
+    var newObj = (isArray(obj)) ? [] : {};
+    if (!isObject(obj)) {
+      newObj = obj;
+    } else {
+      var keys = Object.keys(obj);
+
+      for (var i = 0, length = keys.length; i < length; i += 1) {
+        if (isObject(obj[keys[i]])) {
+          newObj[keys[i]] = deepClone(obj[keys[i]]);
+        } else {
+          newObj[keys[i]] = obj[keys[i]];
+        }
+      }
+    }
+    return newObj;
+  }
+
   exports.isArray = isArray;
   exports.isBoolean = isBoolean;
   exports.isDate = isDate;
@@ -285,6 +305,7 @@ window.utils = (function (exports) {
   exports.traverseWidth = traverseWidth;
   exports.traverseDepth = traverseDepth;
   exports.deepCompare = deepCompare;
+  exports.deepClone = deepClone;
 
   return exports;
 
