@@ -191,7 +191,7 @@ window.utils = (function (exports) {
           var path = [];
 
           if (node.path) {
-            path.push(node.path);
+            path.push.apply(path, node.path);
           }
 
           path.push(node.key);
@@ -210,23 +210,22 @@ window.utils = (function (exports) {
   }
 
   function depthFirst(node, callback) {
-    if (isObject(node.val)) {
-      var keys = Object.keys(node.val);
-      var value = node.val;
+    var keys = Object.keys(node.val);
+    var value = node.val;
 
-      for (var i = 0, length = keys.length; i < length; i += 1) {
-        var path = [];
+    for (var i = 0, length = keys.length; i < length; i += 1) {
+      var path = [];
 
-        if (node.path) {
-          path.push(node.path);
-        }
-
-        path.push(node.key);
-
-        depthFirst((new Node(keys[i], value[keys[i]], path)), callback);
+      if (node.path) {
+        path.push.apply(path, node.path);
       }
-    } else {
-      callback(node.key, node.val, node.path);
+
+      path.push(node.key);
+      if (isObject(value[keys[i]])) {
+        depthFirstSearch((new Node(keys[i], value[keys[i]], path)), callback);
+      } else {
+        callback(keys[i], value[keys[i]], path);
+      }
     }
   }
 
@@ -246,16 +245,17 @@ window.utils = (function (exports) {
       }
 
       for (var i = 0, length = keysFirstObj.length; i < length; i += 1) {
-        if (isEqual) {
-          if (secondObject.hasOwnProperty(keysFirstObj[i])) {
-            isEqual = deepCompare(firstObj[keysFirstObj[i]], secondObject[keysFirstObj[i]]);
-          } else {
-            isEqual = false;
-          }
-        } else {
+        if (!isEqual) {
           break;
         }
+
+        if (secondObject.hasOwnProperty(keysFirstObj[i])) {
+          isEqual = deepCompare(firstObj[keysFirstObj[i]], secondObject[keysFirstObj[i]]);
+        } else {
+          isEqual = false;
+        }
       }
+
       return isEqual;
     }
   }
@@ -263,10 +263,12 @@ window.utils = (function (exports) {
   //deep clone of two object
 
   function deepClone(obj) {
-    var newObj = (isArray(obj)) ? [] : {};
+    var newObj = isArray(obj) ? [] : {};
+
     if (!isObject(obj)) {
       newObj = obj;
     } else {
+
       var keys = Object.keys(obj);
 
       for (var i = 0, length = keys.length; i < length; i += 1) {
@@ -277,6 +279,7 @@ window.utils = (function (exports) {
         }
       }
     }
+
     return newObj;
   }
 
